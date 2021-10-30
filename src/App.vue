@@ -1,8 +1,9 @@
 <template>
+  <NavBar />
   <div class="container">
     <Header
       @toggle-add-task="toggleAddTask"
-      title="Task Tracker"
+      title="Manage Matches"
       :showAddTask="showAddTask"
     />
     <router-view :showAddTask="showAddTask"></router-view>
@@ -13,12 +14,14 @@
 <script>
 import Header from './components/Header'
 import Footer from './components/Footer'
+import NavBar from './components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
     Footer,
+    NavBar
   },
   data() {
     return {
@@ -47,11 +50,11 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 90%;
   margin: 30px auto;
   overflow: auto;
   min-height: 300px;
-  border: 1px solid steelblue;
+  /* border: 1px solid steelblue; */
   padding: 30px;
   border-radius: 5px;
 }

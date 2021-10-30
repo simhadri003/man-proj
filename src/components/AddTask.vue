@@ -2,7 +2,7 @@
   <form @submit="onSubmit" class="add-form">
     <div class="form-control">
       <label>Task</label>
-      <input type="text" v-model="text" name="text" placeholder="Add Task" />
+      <input type="text" v-model="text" name="text" placeholder="Add Match" />
     </div>
     <div class="form-control">
       <label>Day & Time</label>

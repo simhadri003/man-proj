@@ -2,8 +2,8 @@
   <AddTask v-show="showAddTask" @add-task="addTask" />
   <Tasks
     @toggle-reminder="toggleReminder"
-    @delete-task="deleteTask"
-    :tasks="tasks"
+    @update-ref-det="updateRefrees"
+    :matches="matches"
   />
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      tasks: [],
+      matches: [],
     }
   },
   methods: {
@@ -49,6 +49,28 @@ export default {
           : alert('Error deleting task')
       }
     },
+    async updateRefrees(id, refs) {
+      const matchToUpdate = await this.fetchTask(id)
+      const a = matchToUpdate['refrees']
+      const b = refs.split(',')
+      a.push.apply(a, b)
+
+      const updMatch = { ...matchToUpdate, refrees: a }
+
+      const res = await fetch(`api/matches/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(updMatch),
+      })
+
+      const data = await res.json()
+
+      this.matches = this.matches.map((match) =>
+        match.id === id ? { ...match, refrees: a } : match
+      )
+    },
     async toggleReminder(id) {
       const taskToToggle = await this.fetchTask(id)
       const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
@@ -68,14 +90,15 @@ export default {
       )
     },
     async fetchTasks() {
-      const res = await fetch('api/tasks')
+      const res = await fetch('api/matches')
 
       const data = await res.json()
+      console.log("data", data)
 
       return data
     },
     async fetchTask(id) {
-      const res = await fetch(`api/tasks/${id}`)
+      const res = await fetch(`api/matches/${id}`)
 
       const data = await res.json()
 
@@ -83,7 +106,7 @@ export default {
     },
   },
   async created() {
-    this.tasks = await this.fetchTasks()
+    this.matches = await this.fetchTasks()
   },
 }
 </script>

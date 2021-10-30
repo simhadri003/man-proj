@@ -1,9 +1,17 @@
 <template>
-  <div :key="task.id" v-for="task in tasks">
+  <div class="task-fp">
+    <h2>Id</h2>
+    <h2>Match</h2>
+    <h2>Level</h2>
+    <h2>Refrees</h2>
+    <h2>Edit</h2>
+  </div>
+  <div :key="match.id" v-for="match in matches">
     <Task
       @toggle-reminder="$emit('toggle-reminder', task.id)"
-      @delete-task="$emit('delete-task', task.id)"
-      :task="task"
+      @update-ref-det="$emit('update-ref-det', id, refs)"
+      :match="match"
+      header="false"
     />
   </div>
 </template>
@@ -14,7 +22,7 @@ import Task from './Task'
 export default {
   name: 'Tasks',
   props: {
-    tasks: Array,
+    matches: Array,
   },
   components: {
     Task,
